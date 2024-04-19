@@ -1,0 +1,31 @@
+{% load static %}
+<html lang="pt-br">
+<head>
+	<meta charset="UTF-8">
+    <title>Visualização da Turma</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+</head>
+<body>
+	<div class="box-view">
+        <div class="title-main">
+            <img class="img-cap" src="{% static 'imagens/cap.png' %}" width="50px">
+            <p class="title-view">{{turma.nome_turma}}</p>
+        </div>
+        <div class="infos-turma">
+            <p class="cod-view">Código da Turma: </p>
+            <p class="value-view">{{turma.id}}</p>
+            <p class="prof-view">Professor Responsável: </p>
+            <p class="value-view">{{usuario_logado}}</p>
+        </div>
+        <p class="info-view">Atividades Atribuídas: </p>
+        <ul class="list-view">
+            {% if atividades_turma %}
+                {% for atividade in atividades_turma %}
+                    <li class="li-view">{{ atividade.nome_atividade }}</li>
+                {% endfor %}
+            {% else %}
+                <p class="atv-null">Nenhuma atividade cadastrada até o momento</p>
+            {% endif %}
+        </ul>
+    </div>
+<body>

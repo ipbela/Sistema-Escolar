@@ -1,0 +1,32 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro de Atividades</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+</head>
+<body>
+    <div class="box-cadastro" style="margin: 12% 30%;">
+            <h1 class="box-title">Cadastro de Atividades</h1>
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <p class="{{ message.tags }}" style="padding-right: 10px; margin-top: 20px; color: #00a6fb; font-weight: 600;">{{ message }}</p>
+                {% endfor %}
+            </ul>
+            {% endif %}
+            <form action="{% url 'salvar_atividade_nova' %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="id_professor" id="id_professor" value="{{ id_logado }}" />
+                <p class="box-label">Código da Turma</p>
+                <input class="box-input" type="number" id="id_turma" name="id_turma" required>
+                <p class="box-label">Descrição da Atividade</p>
+                <input class="box-input" type="text" id="nome_atividade" name="nome_atividade" required>
+
+                <br><button type="submit" class="box-button">Confirmar</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

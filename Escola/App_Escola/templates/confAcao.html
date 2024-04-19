@@ -1,0 +1,23 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Exclusão de Turma</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+</head>
+<body>
+    <div class="del-box">
+        <h1 class="del-title">Tem certeza de que você deseja excluir permanentemente essa turma?</h1>
+        <div class="del-buttons">
+            <a href="javascript:history.go(-1)">
+                <button type="button" class="voltar-button">Voltar</button>
+            </a>
+            <form method="post" action="{% url 'excluir_turma' id_turma %}">
+                {% csrf_token %}
+                <button type="submit" class="del-button">Excluir</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

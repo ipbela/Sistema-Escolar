@@ -1,0 +1,135 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página Inicial do Professor</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+</head>
+<body onload="login()">
+    <header>
+        <nav id="navbar" class="navbar_container">
+            <div>
+                <img src="{% static 'imagens/logo_senai.png' %}" alt="Logo SENAI" style="height: 42px; padding-top: 9px;">
+            </div>
+            <div>
+                <p class="navbar-title">Professor(a): <br> {{usuario_logado}}</p>
+            </div>
+            <a id="logout-button" href="{% url 'fazer_logout' %}">
+                <button class="navitem_especial">Sair</button>
+            </a>
+        </nav>
+    </header>
+
+    <div class="container-tables">
+        <div class="container-turmas">
+            <div class="container-header">
+                <h2 class="title-turmas">Minhas Turmas</h2>
+                <a href="{% url 'cad_turma' id_professor=id_logado %}">
+                    <button class="table-button" id="turmas">+</button>
+                </a>
+            </div>
+            <div class="cards">
+                {% if turmas_do_professor %}
+                    {% for turma in turmas_do_professor %}
+                        <div class="card-info">
+                            <p class="card-title">{{turma.nome_turma}}</p>
+                            <p class="card-description">{{turma.id}}</p>
+                        </div>
+                        <div class="line"></div>
+                        <div class="actions">
+                            <img class="view" src="{% static 'imagens/view.png' %}" alt="" onclick="window.location='/ver_turma/{{ turma.id }}/{{ id_logado }}'" width="30px" style="cursor: pointer;">
+                            <a href="{% url 'confAcao' id_turma=turma.id %}">
+                                <img class="delete" src="{% static 'imagens/trash.png' %}" alt="" width="30px">
+                            </a>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="atv-null" style="padding: 0;">Nenhuma turma cadastrada até o momento</p>
+                {% endif %}
+            </div>
+        </div>        
+
+        <div class="container-turmas" style="margin-top: 80px;">
+            <div class="container-header" style="gap: 27.5rem">
+                <h2 class="title-turmas">Atividades</h2>
+                <a href="{% url 'cad_atividade' id_professor=id_logado %}">
+                    <button class="table-button" id="atividades">+</button>
+                </a>
+            </div>
+            <div class="cards">
+                {% if atividades_todas_turmas %}
+                    {% for atividade in atividades_todas_turmas %}
+                    <div class="card-info" style="gap: 0;">
+                        <p class="card-description-atv">{{atividade.id}} - </p>
+                        <p class="card-title">{{atividade.nome_atividade}}</p>
+                    </div>
+                    <div class="line"></div>
+                    <p class="card-id">Turma associada: {{atividade.id_turma.id}}</p>
+                    <div class="actions" style="margin-top: 10px;">
+                        <img class="view" src="{% static 'imagens/view.png' %}" alt="" onclick="window.location='/ver_atividade/{{ id_logado }}/{{ atividade.id }}'" width="30px" style="cursor: pointer;">
+                        <a href="{% url 'confAtiv' id_turma=atividade.id_turma.id id_atividade=atividade.id %}">
+                            <img class="delete" src="{% static 'imagens/trash.png' %}" alt="" width="30px"> 
+                        </a>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="atv-null" style="padding: 0;">Nenhuma atividade cadastrada até o momento</p>
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+
+</body>
+
+    <script>
+
+        function login(){
+        
+                const value_id_logado = localStorage.getItem('proj_escola_id_logado');
+                const value_nome_logado = localStorage.getItem('proj_escola_nome_logado');
+                let id_logado = document.getElementById("id_logado").value
+        
+                if (value_id_logado == null) {
+        
+                    //let id_logado = document.getElementById("id_logado").value
+                    let nome_logado = document.getElementById("nome_logado").value
+        
+                    localStorage.setItem('proj_escola_id_logado', id_logado)
+                    localStorage.setItem('proj_escola_nome_logado', nome_logado)
+        
+                }
+                else
+                {
+                if (value_id_logado == null || value_id_logado != id_logado) {
+                    window.alert('Você não está logado. Faça o Login antes de continuar.');
+                    window.location.href='../';
+                }
+                else{
+        
+                    document.getElementById("id_logado").value = value_id_logado ;
+                    document.getElementById("nome_logado").value = value_nome_logado ;
+                }
+                }
+        
+            }
+        
+    </script>
+
+    <script>
+        document.getElementById('logout-button').addEventListener('click', function() {
+            window.location.href = ""; 
+        });
+    </script>
+
+    <script>
+        function confirmarExclusao(idTurma) {
+            if (confirm("Você tem certeza de que deseja excluir esta turma?")) {
+                window.location.href = "/excluir_turma/" + idTurma;
+            }
+        }
+    </script>
+
+</html>

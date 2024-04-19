@@ -1,0 +1,54 @@
+{% load static %}
+<html lang="pt-br">
+<head>
+	<meta charset="UTF-8">
+    <title>Cadastro de Turmas</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+</head>
+<body>
+	<div class="box-cadastro">
+        <h1 class="box-title">Cadastro de Turmas</h1>
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <p class="{{ messages.tags }}" style="margin-top: 20px; color: #00a6fb; font-weight: 600; margin-bottom: -20px;">{{ message }}</p>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        <form action="{% url 'salvar_turma_nova' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="id_professor" id="id_professor"  value="{{ id_logado }}" />
+            <p class="box-label">Nome da Turma</p>
+            <input class="box-input" type="text" id="nome_turma" name="nome_turma" required>
+
+            <br><button type="submit" class="box-button">Cadastrar</button>
+        </form>
+    </div>
+
+    <script>
+
+       const value_id_logado = localStorage.getItem('proj_escola_id_logado');
+       const value_nome_logado = localStorage.getItem('proj_escola_nome_logado');
+       let id_logado = document.getElementById("id_logado").value;
+
+       console.log(value_id_logado);
+       console.log(value_nome_logado);
+       console.log('Depois do Value');
+
+       if (value_id_logado == null) {
+
+          window.alert('Você não está logado. Faça o Login antes de continuar.');
+          window.location.href='../';
+
+       }
+       else
+       {
+          console.log(value_id_logado);
+          console.log('Depois do Value');
+          document.getElementById("id_logado").value = value_id_logado ;
+          document.getElementById("nome_logado").value = value_nome_logado ;
+       }
+    </script>
+
+</body>
+</html>

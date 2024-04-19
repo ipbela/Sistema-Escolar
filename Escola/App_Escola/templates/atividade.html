@@ -1,0 +1,21 @@
+{% load static %}
+<html lang="pt-br">
+<head>
+	<meta charset="UTF-8">
+    <title>Visualização da Atividade</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+</head>
+<body>
+    <div class="box-view">
+        <div class="title-main">
+            <img class="img-cap" src="{% static 'imagens/book.png' %}" width="50px">
+            <p class="title-view">{{atividade.nome_atividade}}</p>
+        </div>
+        <p class="desc-atv" style="margin-top: 30px;">Código da Atividade: </p>
+        <p class="value-atv">{{atividade.id}}</p>
+        <p class="desc-atv">Turma: </p>
+        <p class="value-atv">{{atividade.id_turma.id}} - {{atividade.id_turma}}</p>
+        <p class="desc-atv">Professor Responsável: </p>
+        <p class="value-atv">{{usuario_logado}}</p>
+    </div>
+<body>
